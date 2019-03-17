@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Formulaire de connexion ajax</title>
+          <style>
+
+            h1{
+            	font-family: URW Chancery L, cursive;
+            	font-size: 80px;
+            	color: blue;
+            }
+
+            input{
+                padding: 10px 30px; 
+                background-image: radial-gradient(circle at top left, white, green);
+                font-family: URW Chancery L, cursive;
+                color: white; 
+                font-size: 40px;
+                font-weight:bold;
+                border-radius: 30px;
+                margin : 0 10px;
+            }
+
+            label{
+                font-family: URW Chancery L, cursive;
+                font-size:50px;
+                margin-left: 5px;
+                color:blue;
+                padding-left: 50px;
+            }
+
+            #presentation{
+                display: flex;
+                flex-flow: column wrap;
+                align-items: center;
+                margin-top: 15px;
+                border-radius: 5px;
+                position: relative;
+                box-shadow: 0px 10px 10px black;
+                margin-bottom: 25px;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                background-origin: content-box;
+            }
+
+
+          </style>
+    </head>
+
+     <body>
+     	<h1>Un formulaire de connexion ajax</h1>
+         
+         <div id="presentation">
+     	 <fieldset>
+          <legend> Champs de saisie </legend>
+
+            <label for="pseudo">Pseudo:</label>
+            <input type="text" name="Pseudo" id="username">
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password">
+            <input type="submit" id="submit" value="Se connecter !" />
+
+         </fieldset>
+         </div>
+
+         <div id="resultat">
+         	<fieldset>
+         		<legend> Résultat de la connexion </legend>
+         	</fieldset>
+         	
+         </div>
+
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+         <script type="text/javascript">
+         	$(document).ready(function(){
+
+         		//click sur mon bouton
+         		$("#submit").click(function(e){
+         			e.preventDefault();
+         			$.post(
+                            'cnx_ajax.php', // Mon script php
+                      {
+						  // récuperation de la valeur de nos inputs que l'on fait passer à cnx_ajax.php
+                             username : $("#username").val(), 
+                             password : $("#password").val()
+                      },
+
+                      function(data){
+                      	if (data == 'Success'){
+                      		  // Le membre est connecté. Ajoutons lui un message dans la page HTML.
+                      		  $("#resultat").html("<p>Vous avez été connecté avec succès !</p>");
+                      	}else{
+                      		// le membre n'a pas pu se connecter data vaut dans ce cas failed
+                      		 $("#resultat").html("<p>Erreur lors de la connexion...</p>");
+                      	}
+                      },
+                        // Nous souhaitons recevoir "Success" ou "Failed", donc on indique text !
+                      'text'
+                      );
+
+                     });
+
+         		});
+
+         </script>
+
+	 </body>
+
+</html>
